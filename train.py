@@ -1,3 +1,4 @@
+# Import necessary libraries and disable eager execution for TensorFlow 2 compatibility
 from __future__ import division
 from __future__ import print_function
 
@@ -8,22 +9,26 @@ tf.disable_eager_execution()
 
 from sklearn import metrics
 from utils import *
+# Import utility functions and models
 from models import GCN, MLP
 import random
 import os
 import sys
 
+# Check if the correct number of command-line arguments is provided
 if len(sys.argv) != 2:
 	sys.exit("Use: python train.py <dataset>")
 
+# Define a list of available datasets
 datasets = ['20ng', 'R8', 'R52', 'ohsumed', 'mr']
 dataset = sys.argv[1]
 
+# Check if the specified dataset is in the list of available datasets
 if dataset not in datasets:
 	sys.exit("wrong dataset name")
 
 
-# Set random seed
+# Set random seed for reproducibility
 seed = random.randint(1, 200)
 np.random.seed(seed)
 tf.set_random_seed(seed)
@@ -168,37 +173,45 @@ print(len(word_embeddings), len(train_doc_embeddings),
       len(test_doc_embeddings))
 print(word_embeddings)
 
+# Read vocabulary file
 f = open('data/corpus/' + dataset + '_vocab.txt', 'r')
 words = f.readlines()
 f.close()
 
+# Get vocabulary size
 vocab_size = len(words)
 word_vectors = []
+# Iterate over vocabulary to create word vectors
 for i in range(vocab_size):
     word = words[i].strip()
     word_vector = word_embeddings[i]
     word_vector_str = ' '.join([str(x) for x in word_vector])
     word_vectors.append(word + ' ' + word_vector_str)
 
+# Concatenate word vectors and write to a new file
 word_embeddings_str = '\n'.join(word_vectors)
 f = open('data/' + dataset + '_word_vectors.txt', 'w')
 f.write(word_embeddings_str)
 f.close()
 
+# Initialize an empty list for document vectors
 doc_vectors = []
 doc_id = 0
+# Iterate over training documents to create training document vectors
 for i in range(train_size):
     doc_vector = train_doc_embeddings[i]
     doc_vector_str = ' '.join([str(x) for x in doc_vector])
     doc_vectors.append('doc_' + str(doc_id) + ' ' + doc_vector_str)
     doc_id += 1
 
+# Iterate over test documents to create test document vectors
 for i in range(test_size):
     doc_vector = test_doc_embeddings[i]
     doc_vector_str = ' '.join([str(x) for x in doc_vector])
     doc_vectors.append('doc_' + str(doc_id) + ' ' + doc_vector_str)
     doc_id += 1
 
+# Concatenate document vectors and write to a new file
 doc_embeddings_str = '\n'.join(doc_vectors)
 f = open('data/' + dataset + '_doc_vectors.txt', 'w')
 f.write(doc_embeddings_str)
