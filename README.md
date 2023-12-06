@@ -7,8 +7,11 @@ Text Graph Construction: This module involves constructing a graph representatio
 Text Graph Convolutional Networks: This module involves applying graph convolutional neural networks to the constructed text graph for text classification. A novel approach which involves learning both node-level and graph-level representations of the text corpus using a combination of convolutional and pooling operations.
 ## Prerequisites
 Python 3.x
+
 TensorFlow
+
 nltk
+
 Numpy
 ## Reproducing Results
 
