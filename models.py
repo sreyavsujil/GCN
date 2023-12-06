@@ -59,15 +59,19 @@ class Model(object):
         self.opt_op = self.optimizer.minimize(self.loss)
 
     def predict(self):
+         """Defines the prediction operation."""
         pass
 
     def _loss(self):
+          """Computes the loss for the model."""
         raise NotImplementedError
 
     def _accuracy(self):
+         """Computes the accuracy for the model."""
         raise NotImplementedError
 
     def save(self, sess=None):
+        """Saves the model's variables to a file."""
         if not sess:
             raise AttributeError("TensorFlow session not provided.")
         saver = tf.train.Saver(self.vars)
@@ -75,6 +79,7 @@ class Model(object):
         print("Model saved in file: %s" % save_path)
 
     def load(self, sess=None):
+          """Restores the model's variables from a file."""
         if not sess:
             raise AttributeError("TensorFlow session not provided.")
         saver = tf.train.Saver(self.vars)
@@ -84,6 +89,7 @@ class Model(object):
 
 
 class MLP(Model):
+     """Multi-Layer Perceptron (MLP) model."""
     def __init__(self, placeholders, input_dim, **kwargs):
         super(MLP, self).__init__(**kwargs)
 
@@ -98,6 +104,7 @@ class MLP(Model):
         self.build()
 
     def _loss(self):
+        """Computes the loss for the MLP model."""
         # Weight decay loss
         for var in self.layers[0].vars.values():
             self.loss += FLAGS.weight_decay * tf.nn.l2_loss(var)
@@ -107,10 +114,12 @@ class MLP(Model):
                                                   self.placeholders['labels_mask'])
 
     def _accuracy(self):
+        """Computes the accuracy for the MLP model."""
         self.accuracy = masked_accuracy(self.outputs, self.placeholders['labels'],
                                         self.placeholders['labels_mask'])
 
     def _build(self):
+        """Builds the computational graph for the MLP model."""
         self.layers.append(Dense(input_dim=self.input_dim,
                                  output_dim=FLAGS.hidden1,
                                  placeholders=self.placeholders,
@@ -127,10 +136,12 @@ class MLP(Model):
                                  logging=self.logging))
 
     def predict(self):
+        """Defines the prediction operation for the MLP model."""
         return tf.nn.softmax(self.outputs)
 
 
 class GCN(Model):
+    """Graph Convolutional Network (GCN) model."""
     def __init__(self, placeholders, input_dim, **kwargs):
         super(GCN, self).__init__(**kwargs)
 
