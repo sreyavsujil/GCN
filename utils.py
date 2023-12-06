@@ -6,7 +6,7 @@ from scipy.sparse.linalg import eigsh
 import sys
 import re
 
-
+# Function to parse an index file
 def parse_index_file(filename):
     """Parse index file."""
     index = []
@@ -14,14 +14,14 @@ def parse_index_file(filename):
         index.append(int(line.strip()))
     return index
 
-
+# Function to create a mask
 def sample_mask(idx, l):
     """Create mask."""
     mask = np.zeros(l)
     mask[idx] = 1
     return np.array(mask, dtype=np.bool)
 
-
+# Function to load data for a graph convolutional network
 def load_data(dataset_str):
     """
     Loads input data from gcn/data directory
@@ -114,7 +114,7 @@ def load_data(dataset_str):
 
     return adj, features, y_train, y_val, y_test, train_mask, val_mask, test_mask
 
-
+# Function to load data for a graph convolutional network with word information
 def load_corpus(dataset_str):
     """
     Loads input corpus from gcn/data directory
@@ -177,7 +177,7 @@ def load_corpus(dataset_str):
 
     return adj, features, y_train, y_val, y_test, train_mask, val_mask, test_mask, train_size, test_size
 
-
+# Function to convert a sparse matrix to tuple representation
 def sparse_to_tuple(sparse_mx):
     """Convert sparse matrix to tuple representation."""
     def to_tuple(mx):
@@ -196,7 +196,7 @@ def sparse_to_tuple(sparse_mx):
 
     return sparse_mx
 
-
+# Function to preprocess features
 def preprocess_features(features):
     """Row-normalize feature matrix and convert to tuple representation"""
     rowsum = np.array(features.sum(1))
@@ -206,7 +206,7 @@ def preprocess_features(features):
     features = r_mat_inv.dot(features)
     return sparse_to_tuple(features)
 
-
+# Function to normalize adjacency matrix
 def normalize_adj(adj):
     """Symmetrically normalize adjacency matrix."""
     adj = sp.coo_matrix(adj)
@@ -216,13 +216,13 @@ def normalize_adj(adj):
     d_mat_inv_sqrt = sp.diags(d_inv_sqrt)
     return adj.dot(d_mat_inv_sqrt).transpose().dot(d_mat_inv_sqrt).tocoo()
 
-
+# Function to preprocess adjacency matrix for GCN model
 def preprocess_adj(adj):
     """Preprocessing of adjacency matrix for simple GCN model and conversion to tuple representation."""
     adj_normalized = normalize_adj(adj + sp.eye(adj.shape[0]))
     return sparse_to_tuple(adj_normalized)
 
-
+# Function to construct feed dictionary for the model
 def construct_feed_dict(features, support, labels, labels_mask, placeholders):
     """Construct feed dictionary."""
     feed_dict = dict()
@@ -234,7 +234,7 @@ def construct_feed_dict(features, support, labels, labels_mask, placeholders):
     feed_dict.update({placeholders['num_features_nonzero']: features[1].shape})
     return feed_dict
 
-
+# Function to calculate Chebyshev polynomials up to a specified order k
 def chebyshev_polynomials(adj, k):
     """Calculate Chebyshev polynomials up to order k. Return a list of sparse matrices (tuple representation)."""
     print("Calculating Chebyshev polynomials up to order {}...".format(k))
@@ -258,7 +258,7 @@ def chebyshev_polynomials(adj, k):
 
     return sparse_to_tuple(t_k)
 
-
+# Function to load Word2Vec word vectors from a file
 def loadWord2Vec(filename):
     """Read Word Vectors"""
     vocab = []
@@ -279,6 +279,7 @@ def loadWord2Vec(filename):
     file.close()
     return vocab, embd, word_vector_map
 
+# Function for string cleaning and tokenization
 def clean_str(string):
     """
     Tokenization/string cleaning for all datasets except for SST.
