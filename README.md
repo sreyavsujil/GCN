@@ -1,9 +1,12 @@
-#  Incorporating Multi-Modal fushion in Text classification Using Graph Convolution Network
-This project aims to enhance text classification tasks by incorporating multi-modal information using Graph Convolutional Networks. The integration of textual and visual features is achieved through a novel approach that leverages GCN to capture complex relationships within the data.
-# Features
-Graph Convolutional Network (GCN): This is a TensorFlow implementation of Graph Convolutional Networks for the task of (semi-supervised) classification of nodes in a graph.Utilize GCN to model relationships and dependencies within the data.
-Multi-Modal Fusion:Multi-modal Graph Convolution Network is a novel multi-modal recommendation framework based on graph convolutional networks, explicitly modeling modal-specific user preferences to enhance micro-video recommendation. We update the code and use the full-ranking strategy for validation and testing. Combine textual and visual features for improved text classification.
+#  Implementing Text classification Using Graph Convolution Network
+Text classification is a major problem,concern and research going  using natural language processing (NLP). A new model of deep learning has come to be known as the graph convolutional neural network. Graph convolutional network (GCN) also has advantages compared with the traditional neural network. The above CNN and RNN cannot process the feature representation of graph embedding in non-sequential order. GCN is propagated on each vertex separately, ignoring the order of input between vertices. In other words, the output of GCN is not shifted with the input order of the vertices. 
+# Modules
+Text Graph Construction: This module involves constructing a graph representation of the input text corpus, where each document and words are represented as a node and edges capture the relationships between documents based on their textual similarity. It is a novel approach to constructing this graph using a combination of word co-occurrence and document similarity measures.
+Text Graph Convolutional Networks: This module involves applying graph convolutional neural networks to the constructed text graph for text classification. A novel approach which involves learning both node-level and graph-level representations of the text corpus using a combination of convolutional and pooling operations.
 # Prerequisites
 Python 3.x
 TensorFlow
+nltk
+Numpy
+
 
