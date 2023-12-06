@@ -1,3 +1,4 @@
+# Import necessary libraries
 from nltk.corpus import stopwords
 import nltk
 from nltk.wsd import lesk
@@ -5,15 +6,19 @@ from nltk.corpus import wordnet as wn
 from utils import clean_str, loadWord2Vec
 import sys
 
+# Check if the correct number of command line arguments is provided
 if len(sys.argv) != 2:
 	sys.exit("Use: python remove_words.py <dataset>")
 
+# Define available datasets and read the specified dataset from command line arguments
 datasets = ['20ng', 'R8', 'R52', 'ohsumed', 'mr']
 dataset = sys.argv[1]
 
+# Exit if the specified dataset is not in the list of available datasets
 if dataset not in datasets:
 	sys.exit("wrong dataset name")
 
+# Download NLTK stopwords
 nltk.download('stopwords')
 stop_words = set(stopwords.words('english'))
 print(stop_words)
@@ -24,6 +29,7 @@ print(stop_words)
 # word_embeddings_dim = len(embd[0])
 # dataset = '20ng'
 
+# Read document content from the specified file
 doc_content_list = []
 f = open('data/corpus/' + dataset + '.txt', 'rb')
 # f = open('data/wiki_long_abstracts_en_text.txt', 'r')
@@ -31,7 +37,7 @@ for line in f.readlines():
     doc_content_list.append(line.strip().decode('latin1'))
 f.close()
 
-
+# Count word frequency in the corpus
 word_freq = {}  # to remove rare words
 
 for doc_content in doc_content_list:
@@ -43,6 +49,7 @@ for doc_content in doc_content_list:
         else:
             word_freq[word] = 1
 
+# Clean documents by removing stopwords and rare words
 clean_docs = []
 for doc_content in doc_content_list:
     temp = clean_str(doc_content)
@@ -60,6 +67,7 @@ for doc_content in doc_content_list:
         #doc_str = temp
     clean_docs.append(doc_str)
 
+# Concatenate cleaned documents and write to a new file
 clean_corpus_str = '\n'.join(clean_docs)
 
 f = open('data/corpus/' + dataset + '.clean.txt', 'w')
@@ -67,6 +75,7 @@ f = open('data/corpus/' + dataset + '.clean.txt', 'w')
 f.write(clean_corpus_str)
 f.close()
 
+# Analyze the document length statistics
 #dataset = '20ng'
 min_len = 10000
 aver_len = 0
@@ -84,6 +93,7 @@ for line in lines:
     if len(temp) > max_len:
         max_len = len(temp)
 f.close()
+# Calculate and print document length statistics
 aver_len = 1.0 * aver_len / len(lines)
 print('min_len : ' + str(min_len))
 print('max_len : ' + str(max_len))

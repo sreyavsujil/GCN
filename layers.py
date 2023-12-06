@@ -1,3 +1,5 @@
+
+# Import custom initialization functions from inits module
 from inits import *
 import tensorflow.compat.v1 as tf
 
@@ -40,16 +42,7 @@ class Layer(object):
     """Base layer class. Defines basic API for all layer objects.
     Implementation inspired by keras (http://keras.io).
 
-    # Properties
-        name: String, defines the variable scope of the layer.
-        logging: Boolean, switches Tensorflow histogram logging on/off
-
-    # Methods
-        _call(inputs): Defines computation graph of layer
-            (i.e. takes input, returns output)
-        __call__(inputs): Wrapper for _call()
-        _log_vars(): Log all variables
-    """
+ """
 
     def __init__(self, **kwargs):
         allowed_kwargs = {'name', 'logging'}

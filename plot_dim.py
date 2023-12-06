@@ -1,7 +1,8 @@
 import matplotlib.pyplot as plt
 # matplotlib inline
-
+# Create a figure for the first plot
 f = plt.figure()
+# Plotting the first curve with error bars
 plt.errorbar(
     [10,50,100,150,200,250,300],  # X
     [0.943354,0.969118,0.972498,0.970398,0.970672,0.972772,0.9717925], # Y
@@ -13,11 +14,13 @@ plt.errorbar(
 
 
 plt.legend() #Show legend
-plt.show()
+plt.show()#show the plot
 
+# Save the first plot to a PDF file
 f.savefig("results/dim_R8.pdf", bbox_inches='tight')
-
+# Create a figure for the second plot
 f = plt.figure()
+# Plotting the second curve with error bars
 plt.errorbar(
     [10,50,100,150,200,250,300],  # X
     [0.75836,0.761456,0.76517,0.764888,0.767395,0.765452,0.764722], # Y
@@ -29,6 +32,7 @@ plt.errorbar(
 
 
 plt.legend() #Show legend
-plt.show()
+plt.show()#show the plot
 
+# Save the second plot to a PDF file
 f.savefig("results/dim_MR.pdf", bbox_inches='tight')
